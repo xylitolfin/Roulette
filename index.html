@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roulette</title>
+    <link rel = "stylesheet" href = "main.css">
+</head>
+<body>
+    <div class = "TitleBox">
+        <h2> 룰렛 돌리기</h2>
+        <b>인원 수, 이름 적어서 돌리기</b><br><br>
+        
+        <b>인원 수:</b>
+        <input type="number" class = "inputBox-num" id="num" value="2" min="2" max="6"> 
+        <b>명</b>
+        <button id = "inputBtn" onclick="NumInput()"> 입력하기 </button>
+        <br>
+        (최소: 2명   최대: 6명)
+        
+        <br>
+        <button id = "play" onclick = "PlayRoulette()"> 돌리기 </button>
+        <button id = "clear" onclick = "ClearPosition()"> 원위치 </button>
+        
+        <div class = "Circle" id = "c">
+            <div class = "pin"></div>
+            <div  class= "roulette" id = "r">
+                <!--//입력란-->
+                <div class = "ipt-wrapper">
+                    <input class = "ipt">
+                    <input class = "ipt">
+                    <input class = "ipt">
+                    <input class = "ipt">
+                    <input class = "ipt">
+                    <input class = "ipt">
+                </div>
+                
+               <!-- //선-->
+                <div class ="line-wrapper">
+                    <div class = "line"></div>
+                    <div class = "line"></div>
+                    <div class = "line"></div>
+                    <div class = "line"></div>
+                    <div class = "line"></div>
+                    <div class = "line"></div>
+                    <!--<div class = "line"></div>
+                    <div class = "line"></div>
+                    <div class = "line"></div>
+                    <div class = "line"></div>-->
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    
+    
+<script>
+    
+    var inputBox;
+    let canPlay = false;
+    function NumInput(){
+        inputBox = document.getElementById("num")
+        var num = inputBox.value;
+        var max = inputBox.max;
+        var min = inputBox.min;      
+        
+        if(num < 2){
+            inputBox.value = min;
+        }
+        else if(num > 10){
+            inputBox.value = max;
+        }
+        DrawLines(num);
+        canPlay = true;
+        
+        ClearPosition();
+    }
+    
+    function DrawLines(count){
+        var lines = [];
+        for(let i = 0; i < document.getElementsByClassName("line").length; i++ ){                  
+            lines[i] = document.getElementsByClassName("line")[i]
+            lines[i].style.display = 'none';
+        }
+        switch(count){                
+            case '2':
+                for(let i = 0; i < count; i++ ){                  
+                    lines[i].style.display = 'block';
+                }          
+                lines[1].style.transform = "rotate(180deg)";
+                SetIptBox('2');
+                break;
+            case '3':             
+                for(let i = 0; i < count; i++ ){
+                    lines[i].style.display = 'block';
+                }          
+                lines[1].style.transform = "rotate(120deg)";       
+                lines[2].style.transform = "rotate(240deg)";    
+                SetIptBox('3');
+                break;
+            case '4':
+                for(let i = 0; i < count; i++ ){              
+                    lines[i].style.display = 'block';
+                }          
+                lines[1].style.transform = "rotate(90deg)";       
+                lines[2].style.transform = "rotate(180deg)";   
+                lines[3].style.transform = "rotate(270deg)";   
+                SetIptBox('4');
+                break;
+            case '5':
+                for(let i = 0; i < count; i++ ){
+                    lines[i].style.display = 'block';
+                }          
+                lines[1].style.transform = "rotate(72deg)";       
+                lines[2].style.transform = "rotate(144deg)";   
+                lines[3].style.transform = "rotate(216deg)";   
+                lines[4].style.transform = "rotate(288deg)";   
+                SetIptBox('5');
+                break;
+            case '6':
+                for(let i = 0; i < count; i++ ){
+                    lines[i].style.display = 'block';
+                }          
+                lines[1].style.transform = "rotate(60deg)";       
+                lines[2].style.transform = "rotate(120deg)";   
+                lines[3].style.transform = "rotate(180deg)";   
+                lines[4].style.transform = "rotate(240deg)";  
+                lines[5].style.transform = "rotate(300deg)";  
+                SetIptBox('6');
+                break;
+        }
+           
+    }       //선 긋기
+    
+    let iptBox =[];
+    function SetIptBox(value){
+        for(let i = 0; i < document.getElementsByClassName("ipt").length; i++ ){                  
+            iptBox[i] = document.getElementsByClassName("ipt")[i]
+            iptBox[i].style.display = 'none';
+            iptBox[i].value = i;
+        }
+        
+        switch(value){
+            case '2':
+                for(let i = 0; i < value; i++ ){
+                    iptBox[i].style.display = "block";
+                }            
+                iptBox[0].style.left = "15%"; 
+                iptBox[0].style.top = "45%"; 
+                iptBox[1].style.left = "65%"; 
+                iptBox[1].style.top = "45%"; 
+                break;
+            case '3':
+                 for(let i = 0; i < value; i++ ){
+                    iptBox[i].style.display = "block";
+                }            
+                iptBox[0].style.left = "15%"; 
+                iptBox[0].style.top = "35%"; 
+                iptBox[1].style.left = "65%"; 
+                iptBox[1].style.top = "35%"; 
+                iptBox[2].style.left = "40%"; 
+                iptBox[2].style.top = "75%"; 
+                break;
+            case '4':
+                 for(let i = 0; i < value; i++ ){
+                    iptBox[i].style.display = "block";
+                }            
+                iptBox[0].style.left = "18%"; 
+                iptBox[0].style.top = "25%"; 
+                iptBox[1].style.left = "62%"; 
+                iptBox[1].style.top = "25%"; 
+                iptBox[2].style.left = "62%"; 
+                iptBox[2].style.top = "65%"; 
+                iptBox[3].style.left = "18%"; 
+                iptBox[3].style.top = "65%"; 
+                break;
+            case '5':
+                  for(let i = 0; i < value; i++ ){
+                    iptBox[i].style.display = "block";
+                }            
+                iptBox[0].style.left = "20%"; 
+                iptBox[0].style.top = "20%"; 
+                iptBox[1].style.left = "60%"; 
+                iptBox[1].style.top = "20%";          
+                iptBox[2].style.left = "70%"; 
+                iptBox[2].style.top = "55%";    
+                iptBox[3].style.left = "40%"; 
+                iptBox[3].style.top = "80%";              
+                iptBox[4].style.left = "10%"; 
+                iptBox[4].style.top = "55%"; 
+                
+                break;           
+            case '6':
+                 for(let i = 0; i < value; i++ ){
+                    iptBox[i].style.display = "block";
+                }            
+                iptBox[0].style.left = "22%"; 
+                iptBox[0].style.top = "20%"; 
+                iptBox[1].style.left = "59%"; 
+                iptBox[1].style.top = "20%";   
+                iptBox[2].style.left = "70%"; 
+                iptBox[2].style.top = "47%";   
+                iptBox[3].style.left = "59%"; 
+                iptBox[3].style.top = "75%";             
+                iptBox[4].style.left = "22%"; 
+                iptBox[4].style.top = "75%";             
+                iptBox[5].style.left = "10%"; 
+                iptBox[5].style.top = "47%";               
+                break;
+          
+        }
+    }       //input box 위치 지정
+    
+    
+    let roulette = document.getElementById("r"); 
+    let winValue;
+    function PlayRoulette(){   
+        if(canPlay){
+            Rotate();
+            SectionCheck();   
+            
+            canPlay = false;
+        
+            setTimeout(function(){
+                canClear = true;
+                alert("당첨: " + winValue);
+            }, 5000); 
+        }
+    }
+    
+     
+    let  randValue;
+    function Rotate(){
+        randValue = random(1 , 359);
+        const rNum = random(0 , 2);
+        const randRot = [6, 8 ,10]
+        const angle = -((360 * randRot[rNum]) + randValue);
+        //console.log(randValue);
+        //console.log(randRot[rNum]);
+        roulette.style.transition = "5s ease-in-out";
+        roulette.style.transform += "rotate("+ angle +"deg)"; 
+    }
+    
+    
+    function random(min, max){
+        return Math.floor(Math.random()*(max - min + 1) + min);
+    }
+    
+    function SectionCheck(){
+    
+        const count = inputBox.value;
+        const anglePerSection = 360 / count;
+        const current = 0;
+        const lastAPS = anglePerSection * (count - 1);     //마지막 세션 각도
+        
+        var result;  //결과값(내용)
+        
+        //첫번째랑 마지막
+        if(randValue < anglePerSection){
+            result = iptBox[1].value;
+            console.log(result);
+        }
+        else if(randValue > lastAPS){
+            result = iptBox[0].value;
+            console.log(result);
+        }
+        
+        // 3개
+        if(count == 3){
+            if(randValue > anglePerSection && randValue < lastAPS){
+                result = iptBox[2].value;
+                console.log(result);
+            }
+        }
+        // 4개
+        if(count == 4){
+            if(randValue > anglePerSection && randValue < lastAPS - anglePerSection){
+                result = iptBox[2].value;
+                console.log(result);
+            }
+            else if(randValue < lastAPS && randValue > lastAPS - anglePerSection){
+                result = iptBox[3].value;
+                console.log(result);
+            }
+        }
+        // 5개
+        if(count == 5){
+            if(randValue > anglePerSection && randValue < anglePerSection * 2){
+                result = iptBox[2].value;
+                console.log(result);
+            }
+            else if(randValue > anglePerSection * 2 && randValue < anglePerSection * 3){
+                result = iptBox[3].value;
+                console.log(result);
+            }
+            else if(randValue > anglePerSection * 3 && randValue < lastAPS){
+                result = iptBox[4].value;
+                console.log(result);
+            }
+        }
+        // 6개
+         if(count == 6){
+            if(randValue > anglePerSection && randValue < anglePerSection * 2){
+                result = iptBox[2].value;
+                console.log(result);
+            }
+            else if(randValue > anglePerSection * 2 && randValue < anglePerSection * 3){
+                result = iptBox[3].value;
+                console.log(result);
+            }
+            else if(randValue > anglePerSection * 3 && randValue < anglePerSection * 4){
+                result = iptBox[4].value;
+                console.log(result);
+            }
+            else if(randValue > anglePerSection * 4 && randValue < lastAPS){
+                result = iptBox[5].value;
+                console.log(result);
+            }
+        }
+         
+        for(let i = 0; i < count; i++){
+            if(randValue == anglePerSection * i){
+                result = "무효";
+            }
+        }
+         
+        
+        winValue = result;     //결과값 -> 출력값에 대입
+    }
+    
+    let canClear = false;
+    function ClearPosition(){
+        if(canClear){
+            roulette.style = ''; 
+            roulette.style.transition = "0s";
+            canPlay = true;
+        }
+        canClear = false;
+    }
+    
+</script>
+    
+</body>
+    
+
+</html>
