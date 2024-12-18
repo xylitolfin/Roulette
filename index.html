@@ -49,8 +49,9 @@
                     <div class = "line"></div>-->
                 </div>
             </div>
-           
         </div>
+        
+       
     </div>
     
     
@@ -214,10 +215,16 @@
     
     let roulette = document.getElementById("r"); 
     let winValue;
-    function PlayRoulette(){   
-        if(canPlay){
-            Rotate();
-            SectionCheck();   
+    function PlayRoulette(){                    //룰렛 돌리기 버튼 함수
+        DonkeyCheck();
+        if(canPlay){  
+            if(donkeyMode == false){
+                Rotate();
+                SectionCheck();   
+               }
+            else{
+                DonkeyModeOn();
+            }
             
             canPlay = false;
         
@@ -328,12 +335,44 @@
         winValue = result;     //결과값 -> 출력값에 대입
     }
     
+    let donkeyMode = false;
+    function DonkeyCheck(){
+        const count = inputBox.value;
+        const donkeyCommand = ["나귀", "인커", "옆커", "인커신"]
+        for(let i = 0; i < count; i++){
+            for(let j = 0; j< donkeyCommand.length; j++){
+                if(iptBox[i].value == donkeyCommand[j]){
+                    donkeyMode = true;   
+                    numD = i;
+                    console.log("나귀 발견");
+                    winValue = iptBox[i].value;
+                }
+           }
+        }
+    } 
+    
+    let numD = 0;
+    function DonkeyModeOn(){
+        console.log("나귀 모드")
+        const count = inputBox.value;
+        const rotD = 360 * 8;
+        const randAngleD = random(1,59);
+        const angle = rotD + ((360 / count) * (numD - 1)) + randAngleD;
+        roulette.style.transition = "5s ease-in-out";
+        roulette.style.transform += "rotate("+ -angle +"deg)"; 
+        
+    }
+    
+    
+    
     let canClear = false;
     function ClearPosition(){
         if(canClear){
             roulette.style = ''; 
             roulette.style.transition = "0s";
             canPlay = true;
+            donkeyMode = false;
+            winValue = '';
         }
         canClear = false;
     }
